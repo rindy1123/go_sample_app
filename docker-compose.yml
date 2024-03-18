@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    volumes:
+      - ./api:/app
+    ports:
+      - 58080:8080
+    depends_on:
+      - postgres
+    env_file:
+      - ./api/.env
+  postgres:
+    image: postgres:16.2-alpine3.19
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    ports:
+      - 45432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
