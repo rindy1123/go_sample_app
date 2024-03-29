@@ -21,7 +21,7 @@ locals {
 
 env "gorm" {
   src = data.external_schema.gorm.url
-  dev = "postgres://${local.db_user}:${local.db_pass}@${local.db_host}:${local.db_port}/${local.db_name}?sslmode=${local.db_sslmode}"
+  dev = "docker://postgres/16/dev?search_path=public"
   migration {
     dir = "file://migrations"
   }
