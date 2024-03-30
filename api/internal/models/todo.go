@@ -14,9 +14,9 @@ const (
 )
 
 type Todo struct {
-	Base   base       `gorm:"embedded"`
-	Title  string     `gorm:"title"`
-	Status TodoStatus `gorm:"status"`
+	Base   base       `gorm:"embedded" faker:"-"`
+	Title  string     `gorm:"title"    faker:"word"`
+	Status TodoStatus `gorm:"status"   faker:"oneof:todo,inprogress,done"`
 }
 
 func (Todo) List(db *gorm.DB) []Todo {
@@ -39,13 +39,9 @@ func (Todo) Get(db *gorm.DB, id string) Todo {
 	return todo
 }
 
-func (todo Todo) Create(db *gorm.DB) uuid.UUID {
+func (todo Todo) Create(db *gorm.DB) (uuid.UUID, error) {
 	result := db.Create(&todo)
-
-	if result.Error != nil {
-		panic(result.Error)
-	}
-	return todo.Base.ID
+	return todo.Base.ID, result.Error
 }
 
 func (todo Todo) Update(db *gorm.DB, id string) {

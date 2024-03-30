@@ -17,3 +17,6 @@ migrate_status:
 
 migrate_hash:
 	atlas migrate hash --dir file://migrations
+
+run_test:
+	docker exec $(API_CONTAINER_NAME) go test -v ./...

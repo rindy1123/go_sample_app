@@ -46,7 +46,11 @@ func create(db *gorm.DB) func(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		id := models.Todo{Title: body.Title, Status: body.Status}.Create(db)
+		id, err := models.Todo{Title: body.Title, Status: body.Status}.Create(db)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{"id": id})
 	}
 }
