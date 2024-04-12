@@ -1,8 +1,7 @@
 # TODO
 
 - Test
-  - request
-  - response
   - endpoints
-- Add User table
+- godoc
 - Deploy
+- Add User table

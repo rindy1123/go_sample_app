@@ -17,13 +17,17 @@ type UpdateReqBody struct {
 
 var todoStatusValidator validator.Func = func(fl validator.FieldLevel) bool {
 	status, ok := fl.Field().Interface().(models.TodoStatus)
-	if ok {
-		switch status {
-		case models.TODO, models.INPROGRESS, models.DONE, "":
-			return true
-		default:
-			return false
-		}
+	if !ok {
+		return true
 	}
-	return true
+	return validateTodoStatus(status)
+}
+
+func validateTodoStatus(status models.TodoStatus) bool {
+	switch status {
+	case models.TODO, models.INPROGRESS, models.DONE, "":
+		return true
+	default:
+		return false
+	}
 }

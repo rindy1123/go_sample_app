@@ -14,7 +14,7 @@ const (
 )
 
 type Todo struct {
-	Base   base       `gorm:"embedded" faker:"-"`
+	Base   Base       `gorm:"embedded" faker:"-"`
 	Title  string     `gorm:"title"    faker:"word"`
 	Status TodoStatus `gorm:"status"   faker:"oneof:todo,inprogress,done"`
 }
