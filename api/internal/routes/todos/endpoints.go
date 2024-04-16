@@ -63,8 +63,8 @@ func update(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 		id := c.Param("id")
-		models.Todo{Title: body.Title, Status: body.Status}.Update(db, id)
-		c.Status(http.StatusOK)
+		todo := models.Todo{Title: body.Title, Status: body.Status}.Update(db, id)
+		c.JSON(http.StatusOK, toSingular(todo))
 	}
 }
 

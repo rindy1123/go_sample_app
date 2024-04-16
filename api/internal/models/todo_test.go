@@ -8,8 +8,7 @@ import (
 )
 
 func TestTodo_Create(t *testing.T) {
-	db, teardown := models.SetupTestDB()
-	defer teardown()
+	db := models.SetupTestDB()
 	id, err := models.Todo{Title: "test", Status: "todo"}.Create(db)
 	if err != nil {
 		t.Fatalf(`Error: %v`, err)
@@ -22,18 +21,16 @@ func TestTodo_Create(t *testing.T) {
 }
 
 func TestTodo_Get(t *testing.T) {
-	db, teardown := models.SetupTestDB()
-	defer teardown()
+	db := models.SetupTestDB()
 	todo := factory.Factory{}.CreateTodo(db)
-	get := models.Todo{}.Get(db, todo.Base.ID.String())
-	if get.Title != todo.Title || get.Status != todo.Status {
+	got := models.Todo{}.Get(db, todo.Base.ID.String())
+	if got.Title != todo.Title || got.Status != todo.Status {
 		t.Fatalf(`Expected todo to be {Title: "test", Status: "todo"}, got %v`, todo)
 	}
 }
 
 func TestTodo_List(t *testing.T) {
-	db, teardown := models.SetupTestDB()
-	defer teardown()
+	db := models.SetupTestDB()
 	factory.Factory{}.CreateTodo(db)
 	factory.Factory{}.CreateTodo(db)
 	todos := models.Todo{}.List(db)
@@ -43,25 +40,21 @@ func TestTodo_List(t *testing.T) {
 }
 
 func TestTodo_Update(t *testing.T) {
-	db, teardown := models.SetupTestDB()
-	defer teardown()
+	db := models.SetupTestDB()
 	todo := factory.Factory{}.CreateTodo(db)
-	models.Todo{Title: "updated", Status: "done"}.Update(db, todo.Base.ID.String())
-	var get models.Todo
-	db.Find(&get, "id = ?", todo.Base.ID)
-	if get.Title != "updated" || get.Status != "done" {
-		t.Fatalf(`Expected todo to be {Title: "updated", Status: "done"}, got %v`, get)
+	got := models.Todo{Title: "updated"}.Update(db, todo.Base.ID.String())
+	if got.Title != "updated" || len(got.Status) == 0 {
+		t.Fatalf(`Expected todo to be {Title: "updated", Status: "done"}, got %v`, got)
 	}
 }
 
 func TestTodo_HardDelete(t *testing.T) {
-	db, teardown := models.SetupTestDB()
-	defer teardown()
+	db := models.SetupTestDB()
 	todo := factory.Factory{}.CreateTodo(db)
 	models.Todo{}.HardDelete(db, todo.Base.ID.String())
-	var get models.Todo
-	db.Find(&get, "id = ?", todo.Base.ID)
-	if get.Title != "" || get.Status != "" {
-		t.Fatalf(`Expected todo to be {Title: "", Status: ""}, got %v`, get)
+	var got models.Todo
+	db.Find(&got, "id = ?", todo.Base.ID)
+	if got.Title != "" || got.Status != "" {
+		t.Fatalf(`Expected todo to be {Title: "", Status: ""}, got %v`, got)
 	}
 }

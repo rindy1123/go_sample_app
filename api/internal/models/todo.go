@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type TodoStatus string
@@ -44,12 +45,13 @@ func (todo Todo) Create(db *gorm.DB) (uuid.UUID, error) {
 	return todo.Base.ID, result.Error
 }
 
-func (todo Todo) Update(db *gorm.DB, id string) {
-	result := db.Model(&todo).Where("id = ?", id).Updates(todo)
+func (todo Todo) Update(db *gorm.DB, id string) Todo {
+	result := db.Model(&todo).Clauses(clause.Returning{}).Where("id = ?", id).Updates(todo)
 
 	if result.Error != nil {
 		panic(result.Error)
 	}
+	return todo
 }
 
 func (todo Todo) HardDelete(db *gorm.DB, id string) {
