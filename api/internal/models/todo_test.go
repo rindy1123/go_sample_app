@@ -5,56 +5,50 @@ import (
 
 	"github.com/api/internal/models"
 	"github.com/api/test/factory"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTodo_Create(t *testing.T) {
-	db := models.SetupTestDB()
-	id, err := models.Todo{Title: "test", Status: "todo"}.Create(db)
-	if err != nil {
-		t.Fatalf(`Error: %v`, err)
-	}
-	var todo models.Todo
-	db.Find(&todo, "id = ?", id)
-	if todo.Title != "test" || todo.Status != "todo" {
-		t.Fatalf(`Expected todo to be {Title: "test", Status: "todo"}, got %v`, todo)
-	}
+	db := models.SetupTestDB(t)
+	todo := models.Todo{Title: "test", Status: "status"}
+	id, err := todo.Create(db)
+	assert.NoError(t, err)
+
+	var got models.Todo
+	db.Find(&got, "id = ?", id)
+	assert.Equal(t, todo.Title, got.Title)
+	assert.Equal(t, todo.Status, got.Status)
 }
 
 func TestTodo_Get(t *testing.T) {
-	db := models.SetupTestDB()
+	db := models.SetupTestDB(t)
 	todo := factory.Factory{}.CreateTodo(db)
 	got := models.Todo{}.Get(db, todo.Base.ID.String())
-	if got.Title != todo.Title || got.Status != todo.Status {
-		t.Fatalf(`Expected todo to be {Title: "test", Status: "todo"}, got %v`, todo)
-	}
+	assert.Equal(t, todo.Title, got.Title)
+	assert.Equal(t, todo.Status, got.Status)
 }
 
 func TestTodo_List(t *testing.T) {
-	db := models.SetupTestDB()
+	db := models.SetupTestDB(t)
 	factory.Factory{}.CreateTodo(db)
 	factory.Factory{}.CreateTodo(db)
 	todos := models.Todo{}.List(db)
-	if len(todos) != 2 {
-		t.Fatalf(`Expected 2 todos, got %v`, len(todos))
-	}
+	assert.Len(t, todos, 2)
 }
 
 func TestTodo_Update(t *testing.T) {
-	db := models.SetupTestDB()
+	db := models.SetupTestDB(t)
 	todo := factory.Factory{}.CreateTodo(db)
 	got := models.Todo{Title: "updated"}.Update(db, todo.Base.ID.String())
-	if got.Title != "updated" || len(got.Status) == 0 {
-		t.Fatalf(`Expected todo to be {Title: "updated", Status: "done"}, got %v`, got)
-	}
+	assert.Equal(t, "updated", got.Title)
+	assert.Equal(t, todo.Status, got.Status)
 }
 
 func TestTodo_HardDelete(t *testing.T) {
-	db := models.SetupTestDB()
+	db := models.SetupTestDB(t)
 	todo := factory.Factory{}.CreateTodo(db)
 	models.Todo{}.HardDelete(db, todo.Base.ID.String())
 	var got models.Todo
 	db.Find(&got, "id = ?", todo.Base.ID)
-	if got.Title != "" || got.Status != "" {
-		t.Fatalf(`Expected todo to be {Title: "", Status: ""}, got %v`, got)
-	}
+	assert.Equal(t, models.Todo{}, got)
 }

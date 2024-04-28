@@ -19,4 +19,7 @@ migrate_hash:
 	atlas migrate hash --dir file://migrations
 
 run_test:
-	docker exec $(API_CONTAINER_NAME) go test -v ./...
+	go test -v ./...
+
+clean_test:
+	go clean -testcache

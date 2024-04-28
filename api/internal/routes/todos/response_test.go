@@ -5,6 +5,7 @@ import (
 
 	"github.com/api/internal/models"
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestToSingular(t *testing.T) {
@@ -22,9 +23,7 @@ func TestToSingular(t *testing.T) {
 		Status: models.TODO,
 	}
 
-	if got != expected {
-		t.Errorf("Expected toSingular(%v) to be %v, got %v", todo, expected, got)
-	}
+	assert.Equal(t, expected, got)
 }
 
 func TestToMultiple(t *testing.T) {
@@ -44,7 +43,5 @@ func TestToMultiple(t *testing.T) {
 
 	got := toMultiple(todos)
 
-	if len(got.Todos) != 2 {
-		t.Errorf("Expected 2 elements, got %v", len(got.Todos))
-	}
+	assert.Len(t, got.Todos, 2)
 }

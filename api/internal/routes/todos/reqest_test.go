@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/api/internal/models"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestValidateTodoStatus(t *testing.T) {
@@ -19,13 +20,7 @@ func TestValidateTodoStatus(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if got := validateTodoStatus(test.status); got != test.expected {
-			t.Errorf(
-				`Expected ValidateTodoStatus(%v) to be %v, got %v`,
-				test.status,
-				test.expected,
-				got,
-			)
-		}
+		got := validateTodoStatus(test.status)
+		assert.Equal(t, test.expected, got)
 	}
 }
