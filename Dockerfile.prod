@@ -1,0 +1,8 @@
+FROM golang:1.22-alpine3.19 AS build
+WORKDIR /app
+COPY . .
+RUN go build -o /bin/server ./cmd/server.go
+
+FROM scratch
+COPY --from=build /bin/server /bin/server
+CMD ["/bin/server"]
