@@ -19,8 +19,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-go@v5
         with:
           go-version-file: './go.mod'
+
       - name: Run tests
         run: go test -v ./...
+
+      - name: Build Docker image
+        run: docker build -t go_todo -f Dockerfile.prod --platform=linux/x86_64 .
+
+      - name: Push Docker image
+        run: |
+          docker tag go_todo:latest 938203255528.dkr.ecr.ap-northeast-1.amazonaws.com/go_todo:latest
+          docker push 938203255528.dkr.ecr.ap-northeast-1.amazonaws.com/go_todo:latest

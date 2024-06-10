@@ -1,9 +1,11 @@
 # TODO
 
-- Deploy
-  - CI
-    - test
-    - migration
-  - Terraform
-  - Secrets Manager for env
+- CI
+
+  - migration
+
+  - deploy
+
+    - build and push image
+
 - Add User table
