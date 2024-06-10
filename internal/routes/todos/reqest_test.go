@@ -3,7 +3,7 @@ package todos
 import (
 	"testing"
 
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra/models"
 	"github.com/stretchr/testify/assert"
 )
 

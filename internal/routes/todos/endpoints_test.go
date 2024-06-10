@@ -8,7 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra/models"
+	"github.com/api/test"
 	"github.com/api/test/factory"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +19,7 @@ import (
 func before(t *testing.T) (*gin.Engine, *httptest.ResponseRecorder, *gorm.DB) {
 	gin.SetMode(gin.TestMode)
 	r := gin.Default()
-	db := models.SetupTestDB(t)
+	db := test.SetupTestDB(t)
 	TodoRouter{}.SetupEndpoints(r, db)
 	w := httptest.NewRecorder()
 	return r, w, db

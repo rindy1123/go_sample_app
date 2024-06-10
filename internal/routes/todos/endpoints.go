@@ -3,7 +3,7 @@ package todos
 import (
 	"net/http"
 
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"

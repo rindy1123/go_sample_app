@@ -1,7 +1,7 @@
 package factory
 
 import (
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra/models"
 	"github.com/go-faker/faker/v4"
 	"gorm.io/gorm"
 )

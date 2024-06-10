@@ -1,4 +1,4 @@
-package models
+package infra
 
 import (
 	"github.com/google/uuid"

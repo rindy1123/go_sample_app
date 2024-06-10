@@ -1,7 +1,7 @@
 package todos
 
 import (
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra/models"
 	"github.com/google/uuid"
 )
 

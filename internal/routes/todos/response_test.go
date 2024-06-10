@@ -3,7 +3,8 @@ package todos
 import (
 	"testing"
 
-	"github.com/api/internal/models"
+	"github.com/api/internal/infra"
+	"github.com/api/internal/infra/models"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
@@ -11,7 +12,7 @@ import (
 func TestToSingular(t *testing.T) {
 	id := uuid.New()
 	todo := models.Todo{
-		Base:   models.Base{ID: id},
+		Base:   infra.Base{ID: id},
 		Title:  "Test",
 		Status: models.TODO,
 	}
@@ -30,12 +31,12 @@ func TestToMultiple(t *testing.T) {
 	id := uuid.New()
 	todos := []models.Todo{
 		{
-			Base:   models.Base{ID: id},
+			Base:   infra.Base{ID: id},
 			Title:  "Test",
 			Status: models.TODO,
 		},
 		{
-			Base:   models.Base{ID: id},
+			Base:   infra.Base{ID: id},
 			Title:  "Test",
 			Status: models.TODO,
 		},

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/api/internal/infra"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -15,7 +16,7 @@ const (
 )
 
 type Todo struct {
-	Base   Base       `gorm:"embedded" faker:"-"`
+	Base   infra.Base `gorm:"embedded" faker:"-"`
 	Title  string     `gorm:"title"    faker:"word"`
 	Status TodoStatus `gorm:"status"   faker:"oneof:todo,inprogress,done"`
 }
