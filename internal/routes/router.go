@@ -3,6 +3,7 @@ package routes
 import (
 	"gorm.io/gorm"
 
+	"github.com/api/internal/routes/ping"
 	"github.com/api/internal/routes/todos"
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,7 @@ type Router interface {
 
 var routes = []Router{
 	todos.TodoRouter{},
+	ping.PingRouter{},
 }
 
 func SetupEndpoints(r *gin.Engine, db *gorm.DB) {
