@@ -1,8 +1,16 @@
 FROM golang:1.22-alpine3.19 AS build
 WORKDIR /app
 COPY . .
+
 RUN go build -o /bin/server ./cmd/server.go
 
-FROM scratch
+FROM alpine:3.19
+
+RUN apk --no-cache add curl
+RUN curl -sSf https://atlasgo.sh | sh
+
 COPY --from=build /bin/server /bin/server
-CMD "/bin/server"
+COPY --from=build /app/migrations ./migrations
+COPY --from=build /app/docker/scripts/prod.sh ./prod.sh
+
+CMD "./prod.sh"

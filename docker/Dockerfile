@@ -1,4 +1,7 @@
 FROM golang:1.22-alpine3.19
 WORKDIR /app
 
-CMD ["go", "run", "./cmd/server.go"]
+RUN apk --no-cache add curl
+RUN curl -sSf https://atlasgo.sh | sh
+
+CMD "./docker/scripts/local.sh"
