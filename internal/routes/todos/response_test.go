@@ -46,3 +46,11 @@ func TestToMultiple(t *testing.T) {
 
 	assert.Len(t, got.Todos, 2)
 }
+
+func TestToMultipleEmpty(t *testing.T) {
+	todos := []models.Todo{}
+
+	got := toMultiple(todos)
+
+	assert.Len(t, got.Todos, 0)
+}

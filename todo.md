@@ -1,9 +1,6 @@
 # TODO
 
-- CI
-
-  - deploy
-    - build and push image
+- next.js
 
 - Add User table
 

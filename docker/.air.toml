@@ -1,0 +1,10 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+pre_cmd = ["if [ -d './tmp' ]; then rmdir ./tmp; fi"]
+cmd = "go build -o /tmp/main ./cmd/server.go"
+bin = "/tmp/main"
+include_ext = ["go"]
+include_dir = ["internal", "cmd"]
+include_file = ["go.mod", "go.sum"]

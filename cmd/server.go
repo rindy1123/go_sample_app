@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/api/internal/infra"
 	"github.com/api/internal/routes"
+
 	"github.com/gin-gonic/gin"
 )
 

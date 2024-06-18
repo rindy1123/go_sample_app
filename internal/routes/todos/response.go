@@ -24,7 +24,7 @@ func toSingular(todo models.Todo) GetTodo {
 }
 
 func toMultiple(todos []models.Todo) ListTodos {
-	var getTodos []GetTodo
+	getTodos := []GetTodo{}
 	for _, todo := range todos {
 		getTodos = append(getTodos, toSingular(todo))
 	}
