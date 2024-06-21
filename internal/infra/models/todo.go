@@ -23,7 +23,7 @@ type Todo struct {
 
 func (Todo) List(db *gorm.DB) []Todo {
 	var todos []Todo
-	result := db.Find(&todos)
+	result := db.Order("created_at asc").Find(&todos)
 
 	if result.Error != nil {
 		panic(result.Error)
