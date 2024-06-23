@@ -14,7 +14,7 @@ func (PingRouter) SetupEndpoints(r *gin.Engine, db *gorm.DB) {
 func ping(_ *gorm.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pon",
+			"message": "pong",
 		})
 	}
 }
